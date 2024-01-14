@@ -3,6 +3,7 @@ package models;
 public class User {
     private final String email;
     private final String password;
+
     private final String name;
 
     public String getEmail() {
@@ -12,6 +13,9 @@ public class User {
         return password;
     }
 
+    public String getName() {
+        return name;
+    }
     public User(String email, String password, String name) {
         this.email = email;
         this.password = password;
