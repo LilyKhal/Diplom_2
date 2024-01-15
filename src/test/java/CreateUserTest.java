@@ -1,6 +1,7 @@
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import models.User;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import user.UserClient;
@@ -61,4 +62,6 @@ public class CreateUserTest {
         assertEquals(403,userWithoutNameResponse.statusCode());
         assertEquals("Email, password and name are required fields",userWithoutNameResponse.path("message"));
     }
-}
+
+    }
+

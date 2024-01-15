@@ -12,7 +12,8 @@ public class UserClient {
     private static final String LOGIN_USER_URL = "/api/auth/login";
     private static final String INFO_USER_URL = "/api/auth/user";
 
-@Step("Создание пользователя {user}")
+
+    @Step("Создание пользователя {user}")
 public Response create(User user){
     return given()
             .header("Content-type", "application/json")
@@ -39,6 +40,17 @@ public Response create(User user){
             .when()
             .get(INFO_USER_URL);
     }
+    @Step("Изменение данных пользователя")
+    public Response changeUserInfo(String token, User user) {
+    return given()
+            .header("Content-type","application/json")
+            .and()
+            .header("Authorization", token)
+            .and()
+            .body(user)
+            .when()
+            .patch(INFO_USER_URL);
+    }
 
     @Step("Удаление пользователя по токену {token}")
     public Response delete(String token) {
@@ -49,4 +61,5 @@ public Response create(User user){
                 .when()
                 .delete(INFO_USER_URL);
     }
+
 }
