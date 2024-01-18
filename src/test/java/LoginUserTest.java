@@ -31,22 +31,26 @@ public class LoginUserTest {
         assertEquals(true, response.path("success"));
     }
     @Test
-    public void loginWithWrongCredsTest(){
+    public void loginWithWrongEmailTest() {
         Response wrongLoginResponse = userClient.login(new UserCred(user.getEmail() + "a", user.getPassword()));
         assertEquals(401, wrongLoginResponse.statusCode());
         assertEquals(false, wrongLoginResponse.path("success"));
-
+    }
+    @Test
+    public void loginWithWrongPassswordTest(){
         Response wrongPasswordResponse = userClient.login(new UserCred(user.getEmail(), user.getPassword() + "2"));
         assertEquals(401, wrongPasswordResponse.statusCode());
         assertEquals("email or password are incorrect", wrongPasswordResponse.path("message"));
 
     }
     @Test
-    public void loginWithoutSomeCredsTest(){
-        Response withoutEmailResponse = userClient.login(new UserCred( "", user.getPassword()));
+    public void loginWithoutEmailTest() {
+        Response withoutEmailResponse = userClient.login(new UserCred("", user.getPassword()));
         assertEquals(401, withoutEmailResponse.statusCode());
         assertEquals(false, withoutEmailResponse.path("success"));
-
+    }
+    @Test
+    public void loginWithoutPasswordTest(){
         Response withoutPasswordResponse = userClient.login(new UserCred(user.getEmail(), ""));
         assertEquals(401, withoutPasswordResponse.statusCode());
         assertEquals(false, withoutPasswordResponse.path("success"));

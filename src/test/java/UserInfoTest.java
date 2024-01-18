@@ -43,19 +43,38 @@ public class UserInfoTest {
         assertEquals(401, changeUserInfoWithoutAuthResponse.statusCode());
     }
     @Test
-    public void changeUserInfoWithAuthorizationTest() {
+    public void changeUserEmailWithAuthorizationTest() {
+        //меняем данные у переменной user
+        User randomUser = randomUser();
+        user.setEmail(randomUser.getEmail());
+        //запрос на изменение данных у user
+        Response changeResponse = userClient.changeUserInfo(accessToken, user);
+        assertEquals(true, changeResponse.path("success"));
+        User actualUser = gson.fromJson(changeResponse.path("user").toString(), User.class);
+        //проверка, что данные почты изменились
+        assertEquals(user.getEmail(), actualUser.getEmail());
+    }
+    @Test
+    public void changeUserNameWithAuthorizationTest() {
         //меняем данные у переменной user
         User randomUser = randomUser();
         user.setName(randomUser.getName());
-        user.setEmail(randomUser.getEmail());
+        //запрос на изменение данных у user
+        Response changeResponse = userClient.changeUserInfo(accessToken, user);
+        assertEquals(true, changeResponse.path("success"));
+        User actualUser = gson.fromJson(changeResponse.path("user").toString(), User.class);
+        //проверка, что данные имени изменились
+        assertEquals(user.getName(), actualUser.getName());
+    }
+    @Test
+    public void changeUserPasswordWithAuthorizationTest() {
+        //меняем данные у переменной user
+        User randomUser = randomUser();
         user.setPassword(randomUser.getPassword());
         //запрос на изменение данных у user
         Response changeResponse = userClient.changeUserInfo(accessToken, user);
         assertEquals(true, changeResponse.path("success"));
         User actualUser = gson.fromJson(changeResponse.path("user").toString(), User.class);
-        //проверка, что данные почты и имени изменились
-        assertEquals(user.getName(), actualUser.getName());
-        assertEquals(user.getEmail(), actualUser.getEmail());
         //проверка изменения пароля(с помощью авторизации с новым паролем)
         Response response = userClient.login(fromUser(user));
         assertEquals(200, response.statusCode());
